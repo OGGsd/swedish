@@ -1082,10 +1082,9 @@ export const DEFAULT_POLLING_INTERVAL = 5000;
 export const DEFAULT_TIMEOUT = 30000;
 export const DEFAULT_FILE_PICKER_TIMEOUT = 60000;
 export const DISCORD_URL = "https://discord.com/invite/EqksyE2EX9";
-export const GITHUB_URL = "https://github.com/axie-studio/axie-studio";
 export const TWITTER_URL = "https://x.com/axie_studio";
 export const DOCS_URL = "https://docs.axiestudio.com";
 export const DATASTAX_DOCS_URL =
-  "https://docs.datastax.com/en/langflow/index.html";
+  "https://docs.datastax.com/en/axie-studio/index.html";
 
 export const UUID_PARSING_ERROR = "uuid_parsing";

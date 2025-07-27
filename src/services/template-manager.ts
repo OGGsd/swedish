@@ -317,7 +317,7 @@ export class TemplateManager {
   }
 
   async getAllTemplates(): Promise<AxieStudioTemplate[]> {
-    // Combine Axie Studio templates with rebranded Langflow templates
+    // Combine Axie Studio templates with rebranded Axie Studio templates
     try {
       const langflowResponse = await enhancedMiddleman.getTemplates();
       const langflowTemplates = langflowResponse.success ? langflowResponse.data : [];

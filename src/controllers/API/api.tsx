@@ -77,10 +77,7 @@ function ApiInterceptor() {
           (isAuthenticationError && !autoLogin && autoLogin !== undefined);
 
         if (shouldRetryRefresh) {
-          if (
-            error?.config?.url?.includes("github") ||
-            error?.config?.url?.includes("public")
-          ) {
+          if (error?.config?.url?.includes("public")) {
             return Promise.reject(error);
           }
           const stillRefresh = checkErrorCount();
@@ -106,25 +103,14 @@ function ApiInterceptor() {
     );
 
     const isAuthorizedURL = (url) => {
-      const authorizedDomains = [
-        "https://raw.githubusercontent.com/axie-studio/axie-studio-examples/main/examples",
-        "https://api.github.com/repos/axie-studio/axie-studio-examples/contents/examples",
-        "https://api.github.com/repos/axie-studio/axie-studio",
-        "auto_login",
-      ];
-
       const authorizedEndpoints = ["auto_login"];
 
       try {
-        const parsedURL = new URL(url);
-        const isDomainAllowed = authorizedDomains.some(
-          (domain) => parsedURL.origin === new URL(domain).origin,
-        );
         const isEndpointAllowed = authorizedEndpoints.some((endpoint) =>
-          parsedURL.pathname.includes(endpoint),
+          url.includes(endpoint)
         );
 
-        return isDomainAllowed || isEndpointAllowed;
+        return isEndpointAllowed;
       } catch (_e) {
         // Invalid URL
         return false;
@@ -134,8 +120,6 @@ function ApiInterceptor() {
     // Check for external url which we don't want to add custom headers to
     const isExternalURL = (url: string): boolean => {
       const EXTERNAL_DOMAINS = [
-        "https://raw.githubusercontent.com",
-        "https://api.github.com",
         "https://api.segment.io",
         "https://cdn.sprig.com",
       ];

@@ -27,7 +27,7 @@ export class IntegrationService {
       enableCustomTemplates: true,
       enableAnalytics: this.tenant?.analytics?.enabled || false,
       enableCustomComponents: this.tenant?.features.customComponents || true,
-      backendUrl: process.env.VITE_BACKEND_URL || 'https://langflow-tv34o.ondigitalocean.app',
+      backendUrl: process.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL || 'https://langflow-tv34o.ondigitalocean.app',
       frontendUrl: window.location.origin,
       docsUrl: `${window.location.origin}/docs/docs/`
     };

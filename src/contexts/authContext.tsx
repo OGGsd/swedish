@@ -1,15 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import {
   AXIE_STUDIO_ACCESS_TOKEN,
   AXIE_STUDIO_API_TOKEN,
   AXIE_STUDIO_AUTO_LOGIN_OPTION,
   AXIE_STUDIO_REFRESH_TOKEN,
 } from "@/constants/constants";
-import { useGetUserData } from "@/controllers/API/queries/auth";
+import { useGetUserData, useLoginUser } from "@/controllers/API/queries/auth";
 import { useGetGlobalVariablesMutation } from "@/controllers/API/queries/variables/use-get-mutation-global-variables";
 import useAuthStore from "@/stores/authStore";
-import { setLocalStorage } from "@/utils/local-storage-util";
+import { setLocalStorage, getLocalStorage } from "@/utils/local-storage-util";
 import { useStoreStore } from "../stores/storeStore";
 import type { Users } from "../types/api";
 import type { AuthContextType } from "../types/contexts/auth";
@@ -28,8 +29,27 @@ const initialValue: AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType>(initialValue);
 
+const getSuperuserCredentials = () => {
+  console.log('=== Environment Variables Debug ===');
+  console.log('VITE_LANGFLOW_SUPERUSER:', import.meta.env.VITE_LANGFLOW_SUPERUSER);
+  console.log('VITE_AXIE_STUDIO_SUPERUSER:', import.meta.env.VITE_AXIE_STUDIO_SUPERUSER);
+  console.log('VITE_LANGFLOW_SUPERUSER_PASSWORD defined:', !!import.meta.env.VITE_LANGFLOW_SUPERUSER_PASSWORD);
+  console.log('VITE_AXIE_STUDIO_SUPERUSER_PASSWORD defined:', !!import.meta.env.VITE_AXIE_STUDIO_SUPERUSER_PASSWORD);
+  
+  const credentials = {
+    username: import.meta.env.VITE_LANGFLOW_SUPERUSER || 
+              import.meta.env.VITE_AXIE_STUDIO_SUPERUSER,
+    password: import.meta.env.VITE_LANGFLOW_SUPERUSER_PASSWORD || 
+              import.meta.env.VITE_AXIE_STUDIO_SUPERUSER_PASSWORD
+  };
+  
+  console.log('Final credentials:', { username: credentials.username, password: !!credentials.password });
+  return credentials;
+};
+
 export function AuthProvider({ children }): React.ReactElement {
   const cookies = new Cookies();
+  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState<string | null>(
     cookies.get(AXIE_STUDIO_ACCESS_TOKEN) ?? null,
   );
@@ -44,11 +64,52 @@ export function AuthProvider({ children }): React.ReactElement {
 
   const { mutate: mutateLoggedUser } = useGetUserData();
   const { mutate: mutateGetGlobalVariables } = useGetGlobalVariablesMutation();
+  const { mutate: mutateLoginUser } = useLoginUser();
+
+  const isLoginPage = location.pathname.includes("login");
+
+  const isTokenValid = (timestamp: string | null): boolean => {
+    if (!timestamp) return false;
+    const tokenTime = new Date(timestamp).getTime();
+    const now = new Date().getTime();
+    const twentyFourHours = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    return (now - tokenTime) < twentyFourHours;
+  };
 
   useEffect(() => {
     const storedAccessToken = cookies.get(AXIE_STUDIO_ACCESS_TOKEN);
-    if (storedAccessToken) {
+    const tokenTimestamp = getLocalStorage('axie_studio_token_timestamp');
+    
+    if (storedAccessToken && isTokenValid(tokenTimestamp)) {
       setAccessToken(storedAccessToken);
+      setIsAuthenticated(true);
+      getUser();
+    } else if (!isLoginPage) {
+      console.log('=== Automatic Authentication Attempt ===');
+      console.log('Current page is not login page, attempting automatic authentication');
+      const credentials = getSuperuserCredentials();
+      
+      if (!credentials.username || !credentials.password) {
+        console.error('Missing superuser credentials from environment variables');
+        navigate("/login");
+        return;
+      }
+      
+      console.log('Attempting login with superuser credentials');
+      mutateLoginUser(credentials, {
+        onSuccess: (data) => {
+          const timestamp = new Date().toISOString();
+          setLocalStorage('axie_studio_token_timestamp', timestamp);
+          login(data.access_token, "auto", data.refresh_token);
+        },
+        onError: (error) => {
+          console.error("Automatic superuser authentication failed:", error);
+          cookies.remove(AXIE_STUDIO_ACCESS_TOKEN);
+          cookies.remove(AXIE_STUDIO_REFRESH_TOKEN);
+          localStorage.removeItem('axie_studio_token_timestamp');
+          navigate("/login");
+        },
+      });
     }
   }, []);
 
@@ -85,6 +146,9 @@ export function AuthProvider({ children }): React.ReactElement {
     cookies.set(AXIE_STUDIO_ACCESS_TOKEN, newAccessToken, { path: "/" });
     cookies.set(AXIE_STUDIO_AUTO_LOGIN_OPTION, autoLogin, { path: "/" });
     setLocalStorage(AXIE_STUDIO_ACCESS_TOKEN, newAccessToken);
+    
+    const timestamp = new Date().toISOString();
+    setLocalStorage('axie_studio_token_timestamp', timestamp);
 
     if (refreshToken) {
       cookies.set(AXIE_STUDIO_REFRESH_TOKEN, refreshToken, { path: "/" });

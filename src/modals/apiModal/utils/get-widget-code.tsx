@@ -14,10 +14,10 @@ export default function getWidgetCode({
 }: GetCodeType): string {
   const source = copy
     ? `<script
-  src="https://cdn.jsdelivr.net/gh/axiestudio/axie-studio-embedded-chat@v1.0.7/dist/build/static/js/bundle.min.js">
+  src="https://cdn.jsdelivr.net/gh/axie-studio/axie-studio-embedded-chat@v1.0.7/dist/build/static/js/bundle.min.js">
 </script>`
     : `<script
-  src="https://cdn.jsdelivr.net/gh/axiestudio/axie-studio-embedded-chat@v1.0.7/dist/
+  src="https://cdn.jsdelivr.net/gh/axie-studio/axie-studio-embedded-chat@v1.0.7/dist/
 build/static/js/bundle.min.js">
 </script>`;
 

@@ -189,7 +189,7 @@ export const EnhancedSystemMonitoring: React.FC<EnhancedSystemMonitoringProps> =
             <div>│  {healthStatus.frontend === 'healthy' ? '🟢' : '🔴'} Status: {healthStatus.frontend}   │    │  {healthStatus.proxy === 'healthy' ? '🟢' : '🔴'} Middleman      │    │  🟢 Backend       │</div>
             <div>└─────────────────┘    └──────────────────┘    └─────────────────┘</div>
             <div className="mt-3 text-xs text-muted-foreground">
-              Backend URL: langflow-tv34o.ondigitalocean.app
+              Backend URL: {window.location.hostname === 'localhost' ? 'localhost:7860' : 'langflow-tv34o.ondigitalocean.app'}
             </div>
             <div className="text-xs text-muted-foreground">
               System Status: Operational | Last Update: {new Date().toLocaleTimeString()}

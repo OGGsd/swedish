@@ -304,7 +304,7 @@ export default function AxieStudioAdmin() {
                   <input
                     type="text"
                     className="w-full mt-1 px-3 py-2 border rounded-md"
-                    defaultValue="https://langflow-tv34o.ondigitalocean.app"
+                    defaultValue="https://api.axiestudio.se"
                   />
                 </div>
 

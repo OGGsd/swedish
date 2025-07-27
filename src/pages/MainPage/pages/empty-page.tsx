@@ -7,7 +7,7 @@ import { ForwardedIconComponent } from "@/components/common/genericIconComponent
 import CardsWrapComponent from "@/components/core/cardsWrapComponent";
 import { Button } from "@/components/ui/button";
 import { DotBackgroundDemo } from "@/components/ui/dot-background";
-import { DISCORD_URL, GITHUB_URL } from "@/constants/constants";
+import { DISCORD_URL } from "@/constants/constants";
 import { useGetUserData, useUpdateUser } from "@/controllers/API/queries/auth";
 import useAuthStore from "@/stores/authStore";
 import { useDarkStore } from "@/stores/darkStore";
@@ -101,35 +101,6 @@ export const EmptyPageCommunity = ({
             </div>
 
             <div className="flex w-full max-w-[510px] flex-col gap-7 sm:gap-[29px]">
-              <Button
-                unstyled
-                className="group mx-3 h-[84px] sm:mx-0"
-                onClick={() => {
-                  handleUserTrack("github_starred")();
-                  window.open(GITHUB_URL, "_blank", "noopener,noreferrer");
-                }}
-                data-testid="empty_page_github_button"
-              >
-                <div className="relative flex flex-col rounded-lg border-[1px] bg-background p-4 transition-all duration-300 hover:border-accent-pink-foreground">
-                  <div className="grid w-full items-center justify-between gap-2">
-                    <div className="flex gap-3">
-                      <FaGithub className="h-6 w-6" />
-                      <div>
-                        <span className="font-semibold">GitHub</span>
-                        <span className="ml-2 font-mono text-muted-foreground">
-                          {formatNumber(stars)}
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-base text-secondary-foreground">
-                        {EMPTY_PAGE_GITHUB_DESCRIPTION}
-                      </span>
-                    </div>
-                  </div>
-                  <ExternalLink className={EXTERNAL_LINK_ICON_CLASS} />
-                </div>
-              </Button>
 
               <Button
                 unstyled

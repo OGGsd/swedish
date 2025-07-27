@@ -409,7 +409,7 @@ export default function SystemMonitoring() {
           <div>│  {healthStatus.frontend === 'healthy' ? '🟢' : '🔴'} Status: {healthStatus.frontend}   │    │  {healthStatus.proxy === 'healthy' ? '🟢' : '🔴'} Middleman      │    │  {isConnected ? '🟢' : '🔴'} Live Data     │</div>
           <div>└─────────────────┘    └──────────────────┘    └─────────────────┘</div>
           <div style={{ marginTop: '12px', fontSize: '12px', color: '#666' }}>
-            Backend URL: langflow-tv34o.ondigitalocean.app
+            Backend URL: {window.location.hostname === 'localhost' ? 'localhost:7860' : 'langflow-tv34o.ondigitalocean.app'}
           </div>
           <div style={{ fontSize: '12px', color: '#666' }}>
             Connection Status: {isConnected ? 'Connected' : 'Disconnected'} | Last Update: {new Date().toLocaleTimeString()}

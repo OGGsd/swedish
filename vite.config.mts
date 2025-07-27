@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   const envLangflowResult = dotenv.config({
-    path: path.resolve(__dirname, "../../.env"),
+    path: path.resolve(__dirname, ".env"),
   });
 
   const envLangflow = envLangflowResult.parsed || {};

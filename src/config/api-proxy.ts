@@ -1,20 +1,20 @@
 // API Proxy Configuration for Axie Studio -> Backend
 export interface ApiProxyConfig {
-  langflowBackendUrl: string;
+  axieStudioBackendUrl: string;
   enableProxy: boolean;
   proxyHeaders: Record<string, string>;
 }
 
 // Get the backend URL from environment or default
-const getLangflowBackendUrl = (): string => {
+const getAxieStudioBackendUrl = (): string => {
   // Check for Vite environment variables first
   if (import.meta.env.VITE_BACKEND_URL) {
     return import.meta.env.VITE_BACKEND_URL;
   }
 
   // Check for environment variable first
-  if (process.env.LANGFLOW_BACKEND_URL) {
-    return process.env.LANGFLOW_BACKEND_URL;
+  if (process.env.AXIE_STUDIO_BACKEND_URL) {
+    return process.env.AXIE_STUDIO_BACKEND_URL;
   }
 
   // Check for legacy BACKEND_URL
@@ -27,7 +27,7 @@ const getLangflowBackendUrl = (): string => {
 };
 
 export const API_PROXY_CONFIG: ApiProxyConfig = {
-  langflowBackendUrl: getLangflowBackendUrl(),
+  axieStudioBackendUrl: getAxieStudioBackendUrl(),
   enableProxy: true,
   proxyHeaders: {
     'X-Forwarded-For': 'axie-studio',
@@ -88,7 +88,7 @@ export const API_ENDPOINT_MAPPINGS = {
 // Helper function to get the full backend URL for an endpoint
 export const getBackendUrl = (endpoint: string): string => {
   const mappedEndpoint = API_ENDPOINT_MAPPINGS[endpoint] || endpoint;
-  return `${API_PROXY_CONFIG.langflowBackendUrl}${mappedEndpoint}`;
+  return `${API_PROXY_CONFIG.axieStudioBackendUrl}${mappedEndpoint}`;
 };
 
 // Helper function to add proxy headers to requests

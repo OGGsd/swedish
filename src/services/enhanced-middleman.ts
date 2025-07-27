@@ -1,5 +1,5 @@
 // Enhanced Middleman Framework for Axie Studio
-// Advanced integration with Langflow while maintaining complete white-label control
+// Advanced integration with Axie Studio backend while maintaining complete white-label control
 
 import { robustMiddleman } from './robust-middleman';
 import { getCurrentTenant } from '../config/tenant-config';
@@ -42,9 +42,9 @@ export class EnhancedMiddlemanService {
         };
       }
 
-      // Fallback to Langflow templates but rebrand them
-      const langflowTemplates = await robustMiddleman.get('/api/v1/flows/basic_examples/');
-      const rebrandedTemplates = this.rebrandTemplates(langflowTemplates);
+      // Fallback to backend templates but rebrand them
+      const backendTemplates = await robustMiddleman.get('/api/v1/flows/basic_examples/');
+      const rebrandedTemplates = this.rebrandTemplates(backendTemplates);
 
       return {
         success: true,
@@ -121,7 +121,7 @@ export class EnhancedMiddlemanService {
       description: template.description?.replace(/langflow/gi, 'Axie Studio') || template.description,
       // Add Axie Studio metadata
       axie_studio_rebranded: true,
-      original_source: 'langflow',
+      original_source: 'backend',
       rebranded_at: new Date().toISOString()
     }));
   }
@@ -182,7 +182,7 @@ export class EnhancedMiddlemanService {
       return data;
     }
 
-    // Recursively replace Langflow references with tenant branding
+    // Recursively replace backend references with tenant branding
     const transform = (obj: any): any => {
       if (typeof obj === 'string') {
         return obj
@@ -258,7 +258,7 @@ export class EnhancedMiddlemanService {
   // Component Store Integration
   async getComponents(): Promise<AxieStudioResponse> {
     try {
-      // Get components from Langflow backend
+      // Get components from Axie Studio backend
       const components = await robustMiddleman.get('/api/v1/components/');
       
       // Add Axie Studio custom components
@@ -282,7 +282,7 @@ export class EnhancedMiddlemanService {
   }
 
   private async getAxieStudioComponents() {
-    // Custom Axie Studio components that extend Langflow
+    // Custom Axie Studio components that extend the backend
     return [
       {
         display_name: 'Axie Studio Chat Input',

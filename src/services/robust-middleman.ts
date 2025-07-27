@@ -42,7 +42,7 @@ export class RobustMiddlemanService {
 
   constructor(config?: Partial<MiddlemanConfig>) {
     this.config = {
-      baseURL: API_PROXY_CONFIG.langflowBackendUrl,
+      baseURL: API_PROXY_CONFIG.axieStudioBackendUrl,
       timeout: 30000,
       retryAttempts: 3,
       retryDelay: 1000,
