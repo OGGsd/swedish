@@ -9,7 +9,11 @@
     "VITE_LANGFLOW_URL": "https://langflow-tv34o.ondigitalocean.app",
     "VITE_MULTI_TENANT": "true",
     "VITE_DEFAULT_DOMAIN": "axiestudio.com",
-    "VITE_CONTACT_EMAIL": "stefan@axiestudio.se"
+    "VITE_CONTACT_EMAIL": "stefan@axiestudio.se",
+    "VITE_LANGFLOW_SUPERUSER": "stefan@axiestudio.se",
+    "VITE_LANGFLOW_SUPERUSER_PASSWORD": "STEfanjohn!12",
+    "VITE_AXIE_STUDIO_SUPERUSER": "stefan@axiestudio.se",
+    "VITE_AXIE_STUDIO_SUPERUSER_PASSWORD": "STEfanjohn!12"
   },
   "rewrites": [
     {
