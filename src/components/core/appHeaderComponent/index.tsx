@@ -14,6 +14,7 @@ import { ENABLE_DATASTAX_AXIE_STUDIO } from "@/customization/feature-flags";
 import { useCustomNavigate } from "@/customization/hooks/use-custom-navigate";
 import useTheme from "@/customization/hooks/use-custom-theme";
 import useAlertStore from "@/stores/alertStore";
+import LanguageDropdown from "@/components/common/LanguageDropdown";
 import FlowMenu from "./components/FlowMenu";
 
 export default function AppHeader(): JSX.Element {
@@ -136,6 +137,8 @@ export default function AppHeader(): JSX.Element {
             </AlertDropdown>
           </ShadTooltip>
         </AlertDropdown>
+        <LanguageDropdown className="mr-2" />
+
         <Separator
           orientation="vertical"
           className="my-auto h-7 dark:border-zinc-700"

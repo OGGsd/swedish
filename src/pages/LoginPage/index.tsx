@@ -10,6 +10,7 @@ import { SIGNIN_ERROR_ALERT } from "../../constants/alerts_constants";
 import { CONTROL_LOGIN_STATE } from "../../constants/constants";
 import { AuthContext } from "../../contexts/authContext";
 import useAlertStore from "../../stores/alertStore";
+import { LocalizedText, useLocalizedText } from "../../components/common/LocalizedText";
 import type { LoginType } from "../../types/api";
 import type {
   inputHandlerEventType,
@@ -24,6 +25,7 @@ export default function LoginPage(): JSX.Element {
   const { password, username } = inputState;
   const { login } = useContext(AuthContext);
   const setErrorData = useAlertStore((state) => state.setErrorData);
+  const getText = useLocalizedText();
 
   function handleInput({
     target: { name, value },
@@ -64,10 +66,16 @@ export default function LoginPage(): JSX.Element {
               className="mx-auto mb-4 h-16 w-auto"
             />
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Welcome to Axie Studio
+              <LocalizedText
+                en="Welcome to Axie Studio"
+                sv="Välkommen till Axie Studio"
+              />
             </h1>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Professional AI Workflow Platform
+              <LocalizedText
+                en="Professional AI Workflow Platform"
+                sv="Professionell AI-arbetsflödesplattform"
+              />
             </p>
           </div>
 
@@ -75,7 +83,10 @@ export default function LoginPage(): JSX.Element {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-center text-gray-900 dark:text-white mb-6">
-                Choose Login Type
+                <LocalizedText
+                  en="Choose Login Type"
+                  sv="Välj inloggningstyp"
+                />
               </h2>
 
               {/* User Login Button */}
@@ -95,7 +106,10 @@ export default function LoginPage(): JSX.Element {
                   <div>
                     <Form.Field name="username">
                       <Form.Label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Username <span className="text-red-500">*</span>
+                        <LocalizedText
+                          en="Username"
+                          sv="Användarnamn"
+                        /> <span className="text-red-500">*</span>
                       </Form.Label>
                       <Form.Control asChild>
                         <Input
@@ -106,7 +120,7 @@ export default function LoginPage(): JSX.Element {
                           value={username}
                           className="w-full"
                           required
-                          placeholder="Enter your username"
+                          placeholder={getText("Enter your username", "Ange ditt användarnamn")}
                         />
                       </Form.Control>
                       <Form.Message match="valueMissing" className="text-red-500 text-sm mt-1">

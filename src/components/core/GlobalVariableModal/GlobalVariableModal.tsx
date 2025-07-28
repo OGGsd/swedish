@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ForwardedIconComponent } from "@/components/common/genericIconComponent";
+import { LocalizedText, useLocalizedText } from "@/components/common/LocalizedText";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs-button";
@@ -37,6 +38,7 @@ export default function GlobalVariableModal({
   setOpen?: (a: boolean | ((o?: boolean) => boolean)) => void;
   disabled?: boolean;
 }): JSX.Element {
+  const getText = useLocalizedText();
   const [key, setKey] = useState(initialData?.name ?? "");
   const [value, setValue] = useState(initialData?.value ?? "");
   const [type, setType] = useState(initialData?.type ?? "Credential");
@@ -135,13 +137,13 @@ export default function GlobalVariableModal({
       onSubmit={submitForm}
       disable={disabled}
     >
-      <BaseModal.Header description="This variable will be available for use across your flows.">
+      <BaseModal.Header description={getText("This variable will be available for use across your flows.", "Denna variabel kommer att vara tillgänglig för användning i alla dina flöden.")}>
         <ForwardedIconComponent
           name="Globe"
           className="h-6 w-6 pr-1 text-primary"
           aria-hidden="true"
         />
-        {initialData ? "Update Variable" : "Create Variable"}
+        {initialData ? getText("Update Variable", "Uppdatera variabel") : getText("Create Variable", "Skapa variabel")}
       </BaseModal.Header>
       <BaseModal.Trigger disable={disabled} asChild={asChild}>
         {children}
