@@ -1,0 +1,26 @@
+{
+  "name": "Axie Studio",
+  "short_name": "Axie Studio",
+  "description": "Axie Studio är en low-code-byggare som gör det enklare att bygga kraftfulla AI:er som kan använda vilken API, modell eller databas som helst.",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["developer", "productivity", "utilities"],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
